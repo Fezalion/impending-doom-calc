@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Page Not Found</title>
+    <script>
+      // This script tries to fetch the SPA index and replace the document with it,
+      // preserving the clean URL in the address bar. Works on GitHub Pages.
+      (function () {
+        var index = "/impending-doom-calc/index.html";
+        fetch(index)
+          .then(function (resp) {
+            if (resp.status >= 200 && resp.status < 300) return resp.text();
+            throw new Error("index not found");
+          })
+          .then(function (html) {
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch(function () {
+            document.body.innerHTML =
+              "<h1>Page not found</h1><p>This project is deployed at /impending-doom-calc/</p>";
+          });
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
