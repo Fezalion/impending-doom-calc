@@ -234,6 +234,70 @@ const STYLES = `
     border: 2px solid rgba(255, 255, 255, 1) !important;
   }
 
+  /* Container for the tabs */
+.tab-group {
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(200, 133, 58, 0.2);
+  border-radius: 4px;
+  padding: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Level 1: Archetype Tabs */
+.archetype-btn {
+  flex: 1;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.archetype-btn.active {
+  color: #e8c97a;
+  background: rgba(200, 133, 58, 0.15);
+  box-shadow: inset 0 0 10px rgba(200, 133, 58, 0.2);
+  text-shadow: 0 0 8px rgba(232, 201, 122, 0.5);
+}
+
+/* Level 2: Sub-variant Pills */
+.variant-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.variant-pill {
+  padding: 4px 12px;
+  background: rgba(20, 20, 25, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #aaa;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.variant-pill:hover {
+  border-color: rgba(200, 133, 58, 0.5);
+  color: #eee;
+}
+
+.variant-pill.active {
+  border-color: #e8c97a;
+  color: #e8c97a;
+  background: rgba(232, 201, 122, 0.1);
+  box-shadow: 0 0 5px rgba(232, 201, 122, 0.2);
+}
+
   .hint-banner {
     font-size: 0.68rem; color: #6a5a4a; line-height: 1.6;
     background: rgba(200,133,58,0.05); border: 1px solid rgba(200,133,58,0.15);
@@ -926,116 +990,131 @@ function Accordion({ item, isOpen, onToggle }) {
 }
 
 // ─── Loadout data ──────────────────────────────────
-const LOADOUTS = {
+const LOADOUT_DATA = {
   poison: {
-    title: "Leveling Setup (39-70)",
-    helm: {
-      name: "Foulborn Doedre's Scorn",
-      gems: [
-        { name: "Filler Curse", role: "Main", color: "any" },
-        { name: "Chance to Pois.", role: "Support", color: "green" },
-        { name: "Void Manip.", role: "Support", color: "green" },
-        { name: "Cruelty", role: "Support", color: "blue" },
-      ],
-      note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
-    },
-    gloves: {
-      name: "Vixen's Entrapment",
-      gems: [
-        { name: "Temp. Chains", role: "Curse 1", color: "green" },
-        { name: "Enfeeble", role: "Curse 2", color: "blue" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-        { name: "Despair", role: "Curse 3", color: "green" },
-      ],
-    },
-  },
-  poison_late: {
-    title: "Mid-Game Setup (70+)",
-    helm: {
-      name: "Foulborn Doedre's Scorn",
-      gems: [
-        { name: "Temp. Chains", role: "Main", color: "green" },
-        { name: "Deadly Ailm.", role: "Support", color: "green" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-        { name: "Unbound Ailm.", role: "Support", color: "blue" },
-      ],
-      note: "Primary poison scaling setup for high level mapping.",
-    },
-    gloves: {
-      name: "Vixen's Entrapment",
-      gems: [
-        { name: "Filler Curse", role: "Filler", color: "any" },
-        { name: "Enfeeble", role: "Curse 2", color: "blue" },
-        { name: "Despair", role: "Curse 3", color: "green" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-      ],
-      note: "Filler Curse: Any curse that won't be in use (Dead Curse).",
-    },
-  },
-  ignite_early: {
-    title: "Leveling Setup (39-70)",
-    helm: {
-      name: "Foulborn Doedre's Scorn",
-      gems: [
-        { name: "Filler Curse", role: "Main", color: "any" },
-        { name: "Cruelty", role: "Support", color: "red" },
-        { name: "Ignite Prolif.", role: "Support", color: "blue" },
-        { name: "Combustion", role: "Support", color: "blue" },
-      ],
-      note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
-    },
-    gloves: {
-      name: "Vixen's Entrapment",
-      gems: [
-        { name: "Enfeeble", role: "Curse 1", color: "blue" },
-        { name: "Flammability", role: "Curse 2", color: "red" },
-        { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-      ],
+    label: "Poison",
+    variants: {
+      early: {
+        tabLabel: "Leveling (39-70)",
+        title: "Leveling Setup (39-70)",
+        helm: {
+          name: "Foulborn Doedre's Scorn",
+          gems: [
+            { name: "Utility Curse", role: "Main", color: "any" },
+            { name: "Chance to Pois.", role: "Support", color: "green" },
+            { name: "Void Manip.", role: "Support", color: "green" },
+            { name: "Cruelty", role: "Support", color: "blue" },
+          ],
+          note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
+        },
+        gloves: {
+          name: "Vixen's Entrapment",
+          gems: [
+            { name: "Temp. Chains", role: "Curse 1", color: "green" },
+            { name: "Enfeeble", role: "Curse 2", color: "blue" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+            { name: "Despair", role: "Curse 3", color: "green" },
+          ],
+        },
+      },
+      late: {
+        tabLabel: "Mid-Game (70+)",
+        title: "Mid-Game Setup (70+)",
+        helm: {
+          name: "Foulborn Doedre's Scorn | Level 35 Impending Doom Shako",
+          gems: [
+            { name: "Temp. Chains", role: "Main", color: "green" },
+            { name: "Deadly Ailm.", role: "Support", color: "green" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+            { name: "Unbound Ailm.", role: "Support", color: "blue" },
+          ],
+          note: "Primary poison scaling setup for high level mapping.",
+        },
+        gloves: {
+          name: "Vixen's Entrapment",
+          gems: [
+            { name: "Utility Curse", role: "Filler", color: "any" },
+            { name: "Enfeeble", role: "Curse 2", color: "blue" },
+            { name: "Despair", role: "Curse 3", color: "green" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+          ],
+          note: "Filler Curse: Any curse that won't be in use (Dead Curse).",
+        },
+      },
     },
   },
-  ignite_late: {
-    title: "Mid-Game Setup (70+)",
-    helm: {
-      name: "Foulborn Doedre's Scorn",
-      gems: [
-        { name: "Filler Curse", role: "Main", color: "any" },
-        { name: "Burning Damage", role: "Support", color: "red" },
-        { name: "Deadly Ailments", role: "Support", color: "green" },
-        { name: "Ignite Prolif.", role: "Support", color: "blue" },
-      ],
-      note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
-    },
-    gloves: {
-      name: "Vixen's Entrapment",
-      gems: [
-        { name: "Enfeeble", role: "Curse 1", color: "blue" },
-        { name: "Flammability", role: "Curse 2", color: "red" },
-        { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-      ],
-    },
-  },
-  ignite_endgame: {
-    title: "Endgame (Fan the Flames Cluster)",
-    helm: {
-      name: "Foulborn Doedre's Scorn",
-      gems: [
-        { name: "Filler Curse", role: "Main", color: "any" },
-        { name: "Burning Damage", role: "Support", color: "red" },
-        { name: "Deadly Ailments", role: "Support", color: "green" },
-        { name: "Unbound Ailm.", role: "Support", color: "blue" },
-      ],
-      note: "Requires Fan the Flames Medium Cluster. Replace Ignite Proliferation with Unbound Ailments.",
-    },
-    gloves: {
-      name: "Vixen's Entrapment",
-      gems: [
-        { name: "Enfeeble", role: "Curse 1", color: "blue" },
-        { name: "Flammability", role: "Curse 2", color: "red" },
-        { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
-        { name: "Spell Cascade", role: "Support", color: "blue" },
-      ],
+  ignite: {
+    label: "Ignite",
+    variants: {
+      early: {
+        tabLabel: "Leveling (39-70)",
+        title: "Leveling Setup (39-70)",
+        helm: {
+          name: "Foulborn Doedre's Scorn",
+          gems: [
+            { name: "Utility Curse", role: "Main", color: "any" },
+            { name: "Cruelty", role: "Support", color: "red" },
+            { name: "Ignite Prolif.", role: "Support", color: "blue" },
+            { name: "Combustion", role: "Support", color: "blue" },
+          ],
+          note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
+        },
+        gloves: {
+          name: "Vixen's Entrapment",
+          gems: [
+            { name: "Enfeeble", role: "Curse 1", color: "blue" },
+            { name: "Flammability", role: "Curse 2", color: "red" },
+            { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+          ],
+        },
+      },
+      late: {
+        tabLabel: "Mid-Game (70+)",
+        title: "Mid-Game Setup (70+)",
+        helm: {
+          name: "Foulborn Doedre's Scorn | Level 35 Impending Doom Shako",
+          gems: [
+            { name: "Utility Curse", role: "Main", color: "any" },
+            { name: "Burning Damage", role: "Support", color: "red" },
+            { name: "Deadly Ailments", role: "Support", color: "green" },
+            { name: "Ignite Prolif.", role: "Support", color: "blue" },
+          ],
+          note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
+        },
+        gloves: {
+          name: "Vixen's Entrapment",
+          gems: [
+            { name: "Enfeeble", role: "Curse 1", color: "blue" },
+            { name: "Flammability", role: "Curse 2", color: "red" },
+            { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+          ],
+        },
+      },
+      endgame: {
+        tabLabel: "Endgame",
+        title: "Endgame (Fan the Flames Cluster)",
+        helm: {
+          name: "Foulborn Doedre's Scorn | Level 35 Impending Doom Shako",
+          gems: [
+            { name: "Utility Curse", role: "Main", color: "any" },
+            { name: "Burning Damage", role: "Support", color: "red" },
+            { name: "Deadly Ailments", role: "Support", color: "green" },
+            { name: "Unbound Ailm.", role: "Support", color: "blue" },
+          ],
+          note: "Requires Fan the Flames Medium Cluster. Replace Ignite Proliferation with Unbound Ailments.",
+        },
+        gloves: {
+          name: "Vixen's Entrapment",
+          gems: [
+            { name: "Enfeeble", role: "Curse 1", color: "blue" },
+            { name: "Flammability", role: "Curse 2", color: "red" },
+            { name: "Ele. Weakness", role: "Curse 3", color: "blue" },
+            { name: "Spell Cascade", role: "Support", color: "blue" },
+          ],
+        },
+      },
     },
   },
 };
@@ -1243,83 +1322,79 @@ function ItemCard({ slot, data }) {
 }
 
 function LoadoutsSection() {
-  const [tab, setTab] = useState("ignite_early");
-  const loadout = LOADOUTS[tab];
+  const [mainType, setMainType] = useState("poison");
+  const [variant, setVariant] = useState("early");
+
+  const archetype = LOADOUT_DATA[mainType];
+  const activeVariant =
+    archetype.variants[variant] || archetype.variants["early"];
+
+  const handleArchetypeChange = (type) => {
+    setMainType(type);
+    setVariant("early");
+  };
 
   return (
-    <div style={{ maxWidth: 720, margin: "2rem auto 0" }}>
-      <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-        <div
-          style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: "1.1rem",
-            color: "#e8c97a",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-          }}
-        >
-          Loadouts
+    <div style={{ maxWidth: 720, margin: "2.5rem auto 0" }}>
+      {/* Level 1: Big Archetype Selection */}
+      <div className="tab-group">
+        {Object.keys(LOADOUT_DATA).map((type) => (
+          <button
+            key={type}
+            className={`archetype-btn ${mainType === type ? "active" : ""}`}
+            onClick={() => handleArchetypeChange(type)}
+          >
+            {LOADOUT_DATA[type].label}
+          </button>
+        ))}
+      </div>
+
+      {/* Level 2: Smaller Progression Selection */}
+      <div className="variant-group">
+        {Object.keys(archetype.variants).map((vKey) => (
+          <button
+            key={vKey}
+            className={`variant-pill ${variant === vKey ? "active" : ""}`}
+            onClick={() => setVariant(vKey)}
+          >
+            {archetype.variants[vKey].tabLabel}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div
+        style={{
+          background: "rgba(10, 10, 15, 0.6)",
+          padding: "20px",
+          borderRadius: "8px",
+          border: "1px solid rgba(200, 133, 58, 0.1)",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+          <h3
+            style={{
+              fontFamily: "'Cinzel', serif",
+              color: "#e8c97a",
+              margin: 0,
+              fontSize: "1.2rem",
+              textTransform: "uppercase",
+            }}
+          >
+            {activeVariant.title}
+          </h3>
+          <div
+            className="divider"
+            style={{ width: "60px", margin: "10px auto" }}
+          />
         </div>
-        <div className="divider" style={{ margin: "0.5rem auto" }} />
-      </div>
 
-      <div
-        style={{
-          display: "flex",
-          borderBottom: "1px solid rgba(200,133,58,0.3)",
-          marginBottom: "1.5rem",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        <button
-          className={`sheet-tab${tab === "poison" ? " active" : ""}`}
-          onClick={() => setTab("poison")}
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
-          Poison (39-70)
-        </button>
-        <button
-          className={`sheet-tab${tab === "poison_late" ? " active" : ""}`}
-          onClick={() => setTab("poison_late")}
-        >
-          Poison (70+)
-        </button>
-        <button
-          className={`sheet-tab${tab === "ignite_early" ? " active" : ""}`}
-          onClick={() => setTab("ignite_early")}
-        >
-          Ignite (39-70)
-        </button>
-        <button
-          className={`sheet-tab${tab === "ignite_late" ? " active" : ""}`}
-          onClick={() => setTab("ignite_late")}
-        >
-          Ignite (70+)
-        </button>
-        <button
-          className={`sheet-tab${tab === "ignite_endgame" ? " active" : ""}`}
-          onClick={() => setTab("ignite_endgame")}
-        >
-          Ignite (Cluster)
-        </button>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.2rem",
-        }}
-      >
-        <p
-          style={{
-            textAlign: "center",
-          }}
-        >
-          {loadout.title}
-        </p>
-        <ItemCard slot="helm" data={loadout.helm} />
-        <ItemCard slot="gloves" data={loadout.gloves} />
+          <ItemCard slot="helm" data={activeVariant.helm} />
+          <ItemCard slot="gloves" data={activeVariant.gloves} />
+        </div>
       </div>
     </div>
   );
