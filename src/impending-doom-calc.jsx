@@ -964,7 +964,7 @@ const LOADOUTS = {
     gloves: {
       name: "Vixen's Entrapment",
       gems: [
-        { name: "Utility Curse", role: "Filler", color: "any" },
+        { name: "Filler Curse", role: "Filler", color: "any" },
         { name: "Enfeeble", role: "Curse 2", color: "blue" },
         { name: "Despair", role: "Curse 3", color: "green" },
         { name: "Spell Cascade", role: "Support", color: "blue" },
@@ -999,7 +999,7 @@ const LOADOUTS = {
     helm: {
       name: "Foulborn Doedre's Scorn",
       gems: [
-        { name: "Utility Curse", role: "Main", color: "any" },
+        { name: "Filler Curse", role: "Main", color: "any" },
         { name: "Burning Damage", role: "Support", color: "red" },
         { name: "Deadly Ailments", role: "Support", color: "green" },
         { name: "Ignite Prolif.", role: "Support", color: "blue" },
@@ -1021,7 +1021,7 @@ const LOADOUTS = {
     helm: {
       name: "Foulborn Doedre's Scorn",
       gems: [
-        { name: "Utility Curse", role: "Main", color: "any" },
+        { name: "Filler Curse", role: "Main", color: "any" },
         { name: "Burning Damage", role: "Support", color: "red" },
         { name: "Deadly Ailments", role: "Support", color: "green" },
         { name: "Unbound Ailm.", role: "Support", color: "blue" },
