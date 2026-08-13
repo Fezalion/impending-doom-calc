@@ -73,37 +73,92 @@ const STYLES = `
   .app {
     min-height: 100vh;
     background: radial-gradient(ellipse at top, #1a0a2e 0%, #0a0a0f 60%);
-    color: #c8b99a; padding: 2rem 1rem 3rem;
+    color: #c8b99a;
   }
 
-  .header { text-align: center; margin-bottom: 2rem; }
+  .app-shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .sidebar {
+    flex-shrink: 0;
+    width: 260px;
+    padding: 2rem 1.5rem;
+    border-right: 1px solid rgba(200,133,58,0.2);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(200,133,58,0.25); border-radius: 3px; }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .header { text-align: left; margin-bottom: 2rem; }
   .header h1 {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 700;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700;
     background: linear-gradient(135deg, #e8c97a 0%, #c8853a 50%, #e8c97a 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    letter-spacing: 0.08em; margin-bottom: 0.3rem;
+    letter-spacing: 0.06em; margin-bottom: 0.3rem;
   }
-  .header .subtitle { font-size: 0.75rem; color: #6a5a4a; letter-spacing: 0.15em; text-transform: uppercase; }
-  .header .credit   { font-size: 0.7rem; color: #8a7060; margin-top: 0.4rem; }
-  .divider { width: 200px; height: 1px; background: linear-gradient(90deg, transparent, #c8853a, transparent); margin: 1rem auto; }
+  .header .subtitle { font-size: 0.68rem; color: #6a5a4a; letter-spacing: 0.12em; text-transform: uppercase; }
+  .header .credit   { font-size: 0.66rem; color: #8a7060; margin-top: 1.5rem; line-height: 1.6; }
+  .divider { width: 100%; max-width: 120px; height: 1px; background: linear-gradient(90deg, #c8853a, transparent); margin: 1rem 0; }
 
   .sheet-tabs {
-    display: flex; max-width: 1000px; margin: 0 auto 2rem;
-    border-bottom: 1px solid rgba(200,133,58,0.3);
+    display: flex; flex-direction: column; gap: 0.35rem;
+    margin: 0 0 1rem;
   }
   .sheet-tab {
-    padding: 0.55rem 1.4rem; background: transparent;
-    border: 1px solid transparent; border-bottom: none;
-    color: #6a5a4a; font-family: 'Cinzel', serif; font-size: 0.72rem;
-    letter-spacing: 0.08em; cursor: pointer; transition: all 0.18s;
-    text-transform: uppercase; border-radius: 4px 4px 0 0;
-    position: relative; bottom: -1px;
+    padding: 0.65rem 0.9rem; background: transparent;
+    border: 1px solid transparent; border-left: 2px solid transparent;
+    color: #6a5a4a; font-family: 'Cinzel', serif; font-size: 0.7rem;
+    letter-spacing: 0.06em; cursor: pointer; transition: all 0.18s;
+    text-transform: uppercase; border-radius: 0 6px 6px 0;
+    text-align: left;
   }
   .sheet-tab:hover:not(.active) { color: #a08060; background: rgba(200,133,58,0.05); }
   .sheet-tab.active {
     color: #e8c97a; background: rgba(200,133,58,0.1);
-    border-color: rgba(200,133,58,0.3); border-bottom-color: #0a0a0f;
+    border-left-color: #c8853a;
+  }
+
+  .sidebar-spacer { flex: 1; }
+
+  .page-content { animation: pageIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 860px) {
+    .app-shell { flex-direction: column; }
+    .sidebar {
+      width: 100%; height: auto; position: relative;
+      border-right: none; border-bottom: 1px solid rgba(200,133,58,0.2);
+      flex-direction: row; align-items: center; flex-wrap: wrap;
+      padding: 1.25rem 1rem; gap: 1rem;
+    }
+    .header { margin-bottom: 0; }
+    .divider { display: none; }
+    .sheet-tabs { flex-direction: row; flex-wrap: wrap; margin: 0; }
+    .sheet-tab { border-left: none; border-bottom: 2px solid transparent; border-radius: 4px 4px 0 0; }
+    .sheet-tab.active { border-left-color: transparent; border-bottom-color: #c8853a; }
+    .sidebar-spacer { display: none; }
+    .header .credit { margin-top: 0; }
+    .main-content { padding: 1.75rem 1rem 3rem; }
   }
 
   .layout, .spec-layout {
@@ -194,6 +249,7 @@ const STYLES = `
   .search-row label { font-size: 0.7rem; color: #6a5a4a; white-space: nowrap; }
 
   .notes { max-width: 1000px; margin: 1.5rem auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .notes.notes-top { margin: 0 0 1.5rem; max-width: none; }
   .note-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(200,133,58,0.15); border-radius: 6px; padding: 1rem; }
   .note-card h4 { font-family: 'Cinzel', serif; font-size: 0.7rem; color: #c8853a; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
   .note-card p  { font-size: 0.7rem; color: #6a5a4a; line-height: 1.6; }
@@ -984,7 +1040,7 @@ const LOADOUT_DATA = {
             { name: "Void Manip.", role: "Support", color: "green" },
             { name: "Cruelty", role: "Support", color: "red" },
           ],
-          note: "Main Curse: Use any curse EXCEPT Enfeeble, Flammability, or Ele. Weakness.",
+          note: "Main Curse: Use any curse EXCEPT Temp. Chains, Enfeeble or Despair,",
         },
         gloves: {
           name: "Vixen's Entrapment",
@@ -1424,92 +1480,106 @@ export default function ImpendingDoomCalc() {
     <>
       <style>{STYLES}</style>
       <div className="app">
-        <div className="header">
-          <h1>Impending Doom</h1>
-          <div className="subtitle">Cast Speed & CDR Calculator</div>
-          <div className="divider" />
-          <div className="credit">
-            Originally Made by @Silenth ·{" "}
-            <a
-              href="https://docs.google.com/spreadsheets/d/1J-yVLmDhKqKNE8QecsPnZgNR2TDGDm41f-1tdC_BxQA/edit?gid=1230763965#gid=1230763965"
-              className="text-amber-500 underline cursor-pointer"
-            >
-              og document
-            </a>{" "}
-            · Website made by Fezalion
-          </div>
-        </div>
-
-        <div className="sheet-tabs">
-          <button
-            className={`sheet-tab${activeTab === "faq" ? " active" : ""}`}
-            onClick={() => setActiveTab("faq")}
-          >
-            FAQ
-          </button>
-          <button
-            className={`sheet-tab${activeTab === "cdr" ? " active" : ""}`}
-            onClick={() => setActiveTab("cdr")}
-          >
-            CDR &amp; Cast Speed
-          </button>
-          <button
-            className={`sheet-tab${activeTab === "specific" ? " active" : ""}`}
-            onClick={() => setActiveTab("specific")}
-          >
-            Checking Specific Values
-          </button>
-        </div>
-
-        <div style={{ display: activeTab === "faq" ? "block" : "none" }}>
-          <FAQTab />
-        </div>
-
-        <div style={{ display: activeTab === "cdr" ? "block" : "none" }}>
-          <CDRTable
-            vixenCD={vixenCD}
-            setVixenCD={setVixenCD}
-            doomCD={doomCD}
-            setDoomCD={setDoomCD}
-            actionSpeed={actionSpeed}
-            setActionSpeed={setActionSpeed}
-            awakened={awakened}
-            setAwakened={setAwakened}
-          />
-          <div className="notes">
-            <div className="note-card">
-              <h4>Cast Speed MaxDPS</h4>
-              <p>
-                The cast speed to aim for in bossing (no mapping buffs). Getting
-                more beyond this gives no DPS gain.
-              </p>
+        <div className="app-shell">
+          <aside className="sidebar">
+            <div className="header">
+              <h1>Impending Doom</h1>
+              <div className="subtitle">Cast Speed & CDR Calculator</div>
+              <div className="divider" />
             </div>
-            <div className="note-card">
-              <h4>Cast Speed Hardcap ⚠</h4>
-              <p>
-                Do NOT exceed this at any point — including with Onslaught or
-                other temporary buffs. Exceeding it causes Doom Blast to fire
-                faster than Vixen's cooldown, halving your damage.
-              </p>
-            </div>
-            <div className="note-card">
-              <h4>Breakpoints</h4>
-              <p>
-                No real breakpoints except 80–88% CDR where Vixen Ticks drop
-                5→4. Breakpoints elsewhere are a myth — Doom Blast's cooldown
-                recovers between server ticks.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        <div style={{ display: activeTab === "specific" ? "block" : "none" }}>
-          <SpecificValues
-            vixenCD={vixenCD}
-            doomCD={doomCD}
-            awakened={awakened2}
-            setAwakened={setAwakened2}
-          />
+            <nav className="sheet-tabs">
+              <button
+                className={`sheet-tab${activeTab === "faq" ? " active" : ""}`}
+                onClick={() => setActiveTab("faq")}
+              >
+                FAQ
+              </button>
+              <button
+                className={`sheet-tab${activeTab === "cdr" ? " active" : ""}`}
+                onClick={() => setActiveTab("cdr")}
+              >
+                CDR &amp; Cast Speed
+              </button>
+              <button
+                className={`sheet-tab${activeTab === "specific" ? " active" : ""}`}
+                onClick={() => setActiveTab("specific")}
+              >
+                Checking Specific Values
+              </button>
+            </nav>
+
+            <div className="sidebar-spacer" />
+
+            <div className="header">
+              <div className="credit">
+                Originally Made by @Silenth ·{" "}
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1J-yVLmDhKqKNE8QecsPnZgNR2TDGDm41f-1tdC_BxQA/edit?gid=1230763965#gid=1230763965"
+                  className="text-amber-500 underline cursor-pointer"
+                >
+                  og document
+                </a>{" "}
+                · Website made by Fezalion
+              </div>
+            </div>
+          </aside>
+
+          <main className="main-content">
+            <div key={activeTab} className="page-content">
+              {activeTab === "faq" && <FAQTab />}
+
+              {activeTab === "cdr" && (
+                <>
+                  <div className="notes notes-top">
+                    <div className="note-card">
+                      <h4>Cast Speed MaxDPS</h4>
+                      <p>
+                        The cast speed to aim for in bossing (no mapping buffs).
+                        Getting more beyond this gives no DPS gain.
+                      </p>
+                    </div>
+                    <div className="note-card">
+                      <h4>Cast Speed Hardcap ⚠</h4>
+                      <p>
+                        Do NOT exceed this at any point — including with
+                        Onslaught or other temporary buffs. Exceeding it causes
+                        Doom Blast to fire faster than Vixen's cooldown, halving
+                        your damage.
+                      </p>
+                    </div>
+                    <div className="note-card">
+                      <h4>Breakpoints</h4>
+                      <p>
+                        No real breakpoints except 80–88% CDR where Vixen Ticks
+                        drop 5→4. Breakpoints elsewhere are a myth — Doom
+                        Blast's cooldown recovers between server ticks.
+                      </p>
+                    </div>
+                  </div>
+                  <CDRTable
+                    vixenCD={vixenCD}
+                    setVixenCD={setVixenCD}
+                    doomCD={doomCD}
+                    setDoomCD={setDoomCD}
+                    actionSpeed={actionSpeed}
+                    setActionSpeed={setActionSpeed}
+                    awakened={awakened}
+                    setAwakened={setAwakened}
+                  />
+                </>
+              )}
+
+              {activeTab === "specific" && (
+                <SpecificValues
+                  vixenCD={vixenCD}
+                  doomCD={doomCD}
+                  awakened={awakened2}
+                  setAwakened={setAwakened2}
+                />
+              )}
+            </div>
+          </main>
         </div>
       </div>
     </>
