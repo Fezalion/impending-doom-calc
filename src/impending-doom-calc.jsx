@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 
 // ─── Shared constants ────────────────────────────────────────────────────────
 const TICKS_PER_SEC = 30;
+const TEMP_CHAINS_BASE = 0.5; // base cast time of Temporal Chains (constant)
 
 // ─── Tab 1 helpers ───────────────────────────────────────────────────────────
 function calcCDRRow(
@@ -385,8 +386,6 @@ function CDRTable({
   setVixenCD,
   doomCD,
   setDoomCD,
-  tempChains,
-  setTempChains,
   actionSpeed,
   setActionSpeed,
   awakened,
@@ -399,11 +398,18 @@ function CDRTable({
     const data = [];
     for (let cdr = 0; cdr <= 89; cdr++) {
       data.push(
-        calcCDRRow(cdr, vixenCD, doomCD, tempChains, actionSpeed, cascadeHits),
+        calcCDRRow(
+          cdr,
+          vixenCD,
+          doomCD,
+          TEMP_CHAINS_BASE,
+          actionSpeed,
+          cascadeHits,
+        ),
       );
     }
     return data;
-  }, [vixenCD, doomCD, tempChains, actionSpeed, cascadeHits]);
+  }, [vixenCD, doomCD, actionSpeed, cascadeHits]);
 
   const breakpoints = useMemo(() => {
     const bp = new Set();
@@ -461,19 +467,6 @@ function CDRTable({
               value={doomCD}
               onChange={(e) => setDoomCD(parseFloat(e.target.value) || 0.15)}
             />
-          </div>
-          <div className="field">
-            <label>Temp Chains Cast Time</label>
-            <input
-              type="number"
-              step="0.05"
-              value={tempChains}
-              onChange={(e) => setTempChains(parseFloat(e.target.value) || 0)}
-            />
-            <div className="hint">
-              the base cast time of Temporal Chains (should be 0.5 at all times
-              ?)
-            </div>
           </div>
           <div className="field">
             <label>Action Speed (%)</label>
@@ -562,13 +555,13 @@ function CDRTable({
 }
 
 // ─── Tab 2: Checking Specific Values ─────────────────────────────────────────
-function SpecificValues({ vixenCD, doomCD, tempChains, setTempChains }) {
+function SpecificValues({ vixenCD, doomCD }) {
   const [cdr, setCdr] = useState(53);
   const [actionSpeed, setAS] = useState(0);
   const [myCastSpeed, setMyCS] = useState(133);
   const [offset, setOffset] = useState(10);
 
-  const tempChainsBase = tempChains;
+  const tempChainsBase = TEMP_CHAINS_BASE;
 
   const summary = useMemo(
     () =>
@@ -638,20 +631,6 @@ function SpecificValues({ vixenCD, doomCD, tempChains, setTempChains }) {
       <div>
         <div className="panel">
           <div className="panel-title">🔍 Your Stats</div>
-          <div className="field">
-            <label>Temp Chains Cast Time</label>
-            <input
-              type="number"
-              step="0.05"
-              value={tempChains}
-              onChange={(e) => setTempChains(parseFloat(e.target.value) || 0)}
-            />
-            <div className="hint">
-              the base cast time of Temporal Chains (should be 0.5 at all times
-              ?)
-            </div>
-          </div>
-
           <div className="field">
             <label>CDR %</label>
             <input
@@ -1436,11 +1415,9 @@ export default function ImpendingDoomCalc() {
   // Tab 1 params
   const [vixenCD, setVixenCD] = useState(0.25);
   const [doomCD, setDoomCD] = useState(0.15);
-  const [tempChains, setTempChains] = useState(0.5);
   const [actionSpeed, setActionSpeed] = useState(0);
   const [awakened, setAwakened] = useState(false);
   // Tab 2 independent params
-  const [tempChains2, setTempChains2] = useState(0.5);
   const [awakened2, setAwakened2] = useState(false);
 
   return (
@@ -1494,8 +1471,6 @@ export default function ImpendingDoomCalc() {
             setVixenCD={setVixenCD}
             doomCD={doomCD}
             setDoomCD={setDoomCD}
-            tempChains={tempChains}
-            setTempChains={setTempChains}
             actionSpeed={actionSpeed}
             setActionSpeed={setActionSpeed}
             awakened={awakened}
@@ -1532,8 +1507,6 @@ export default function ImpendingDoomCalc() {
           <SpecificValues
             vixenCD={vixenCD}
             doomCD={doomCD}
-            tempChains={tempChains2}
-            setTempChains={setTempChains2}
             awakened={awakened2}
             setAwakened={setAwakened2}
           />
