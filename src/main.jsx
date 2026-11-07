@@ -6,7 +6,7 @@ import ImpendingDoomCalc from "./impending-doom-calc.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/impending-doom-calc">
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<ImpendingDoomCalc />} />
       </Routes>
